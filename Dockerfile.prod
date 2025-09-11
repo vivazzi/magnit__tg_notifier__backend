@@ -1,0 +1,30 @@
+# ---------- STAGE 1: build ----------
+FROM node:23-alpine AS builder
+
+WORKDIR /app
+
+RUN npm install -g pnpm@10.4.1
+
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm i --frozen-lockfile
+
+COPY . .
+
+RUN pnpm run build
+
+COPY ./src/swagger/description.md ./dist/description.md
+
+
+# ---------- STAGE 2: production ----------
+FROM node:23-alpine AS production
+
+WORKDIR /app
+
+RUN apk add --no-cache curl
+
+RUN npm install -g pnpm@10.4.1
+
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm i --production --frozen-lockfile
+
+COPY --from=builder /app/dist ./dist
