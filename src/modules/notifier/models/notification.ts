@@ -1,18 +1,13 @@
 import { z } from 'zod'
 import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi'
-
-import { GROUPS } from './groups.ts'
+import { auth_token } from './auth_token.ts'
 
 extendZodWithOpenApi(z)
 
 
 export const notification = z.object({
-    group: z.nativeEnum(GROUPS).openapi({
-        description: 'Группа для уведомления',
-        examples: Object.values(GROUPS),
-    }),
+    group_id: z.string().openapi({ description: 'ID группы для уведомления' }),
     text: z.string().min(1).openapi({ description: 'Текст сообщения' }),
-    token: z.string().openapi({ description: 'Токен для авторизации' }),
-})
+}).merge(auth_token)
 
 // export type TNotification = z.infer<typeof notification>

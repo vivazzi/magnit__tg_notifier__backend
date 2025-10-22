@@ -8,12 +8,13 @@ The **backend** service of [tg_notifier](https://coderepo.corp.tander.ru/it_khd/
 ## Navigation
 
 - [Key topics](#key-topics)
+  - [Development and Production environments](#development-and-production-environments)
+  - [Telegram bot group registration](#telegram-bot-group-registration)
 - [Installing](#installing)
 - [Running](#running)
   - [Development](#development)
-- [Production](#production)
-  - [Update service](#update-service)
-- [Telegram](#telegram)
+  - [Production](#production)
+- [Updating](#updating)
 - [Git Workflow](#git-workflow)
 - [Project concept and code style](#project-concept-and-code-style)
   - [Markdown TOC](#markdown-toc)
@@ -25,6 +26,9 @@ The **backend** service of [tg_notifier](https://coderepo.corp.tander.ru/it_khd/
 
 ## Key topics
 
+
+### Development and Production environments
+
 1. Development
    - Uses long polling (`getUpdates`).  
    - Simple to run locally, no public URL required.  
@@ -33,6 +37,28 @@ The **backend** service of [tg_notifier](https://coderepo.corp.tander.ru/it_khd/
    - Uses webhooks (`POST /webhook/tg`).  
    - Telegram pushes updates directly to the service over HTTPS.  
    - Recommended for production: scalable and resource-efficient.
+
+
+### Telegram bot group registration
+
+- **Current approach:**  
+  To register a Telegram bot in a group, users send the `\register_group_to_tg_notifier` command.  
+  The service saves group information to a JSON file.  
+  This simple approach works well for:
+  - Rare events (registration happens infrequently)
+  - Small number of groups
+  - Single service instance
+
+- **Why JSON:**  
+  Using a file avoids the complexity of setting up a database (Postgres, SQLite) for the initial implementation.  
+  It allows fast iteration and keeps deployment lightweight.
+
+- **Future-proofing:**  
+  If the project scales, number of groups increases, or analytics/reporting becomes necessary,  
+  it is recommended to move to a proper database (e.g., Postgres) for:
+  - Reliability
+  - Concurrency handling
+  - Data history and more complex queries
 
 
 ## Installing
@@ -44,7 +70,7 @@ The **backend** service of [tg_notifier](https://coderepo.corp.tander.ru/it_khd/
 3. Clone this service:
 
    ```shell
-   git clone git@coderepo.corp.tander.ru:it_khd/dev_khd/tg_notifier__backend.git backend
+   git clone git@coderepo.corp.tander.ru:it_khd/dev_khd/tg_notifier_backend.git backend
    ```
    
 4. (development only) Install git hooks:
@@ -70,7 +96,7 @@ The **backend** service of [tg_notifier](https://coderepo.corp.tander.ru/it_khd/
    ```
 
 
-## Production
+### Production
 
 1. Copy the required environment variable files for this service 
    (see `services:backend` in [docker-compose.yml](../../devops/docker/prod/docker-compose.yml)) 
@@ -89,7 +115,8 @@ The **backend** service of [tg_notifier](https://coderepo.corp.tander.ru/it_khd/
    docker compose -f ../../devops/docker/prod/docker-compose.yml up backend --build -d
    ```
 
-### Update service
+
+## Updating
 
 Use the [Makefile](../../Makefile) to quickly update the service:
 
@@ -98,36 +125,6 @@ cd ../../ && make pull_backend     # pull only
 cd ../../ && make up_backend       # build and update
 cd ../../ && make pull_up_backend  # full update: pull, build, and update
 ```
-
-[//]: # (todo: remove)
-## Telegram
-
-You can define group ids:
-
-1. Add bot to required groups and set bot as admin.
-
-2. Write anything to groups, for example, `test`.
-
-3. Get info about bot updates to find group ids:
-
-   ```shell
-   curl -s "https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates" | jq '.result[].message.chat | {id, title}'
-   ```
-   
-   You can see something like:
-
-   ```json lines
-   {
-     "id": group_1_id,
-     "title": "group_1_title"
-   }
-   {
-     "id": group_2_id,
-     "title": "group_2_title"
-   }
-   ```
-   
-   Find `result / my_chat_member / chat / id` and copy group ids to docker `.env`.
 
 
 ## Git Workflow
@@ -154,7 +151,7 @@ doctoc --title "## Navigation" --maxlevel 4 README.md
 ## Contributing
 
 To report bugs or suggest improvements, please use the 
-[issue tracker](https://coderepo.corp.tander.ru/it_khd/dev_khd/tg_notifier__backend/-/issues)
+[issue tracker](https://coderepo.corp.tander.ru/it_khd/dev_khd/tg_notifier_backend/-/issues)
 
 If you discover a security issue in the code, do **not** create an issue or raise it in any public forum 
 until we have had a chance to address it. **For security issues, contact**: maltcev_a_v@magnit.ru

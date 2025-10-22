@@ -21,8 +21,6 @@ export const config = {
         allowed_origins: process.env.APP_ALLOWED_ORIGINS?.split(',') ?? '*',
     },
 
-    group_ids: {
-        top_managers: require_env('APP_TOP_MANAGERS_GROUP_ID'),
-        tech_managers: require_env('APP_TECH_MANAGERS_GROUP_ID'),
-    },
+    data_dir: './data',
+    public_url: require_env('APP_PUBLIC_URL'),
 }

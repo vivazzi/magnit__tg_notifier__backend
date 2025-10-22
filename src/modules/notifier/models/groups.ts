@@ -1,14 +1,23 @@
-import { config } from '../../../config.ts'
+import { z } from 'zod'
+import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi'
+
+extendZodWithOpenApi(z)
 
 
-export const GROUPS = {
-    TOP_MANAGERS: 'top_managers',
-    TECH_MANAGERS: 'tech_managers',
-} as const
+export type TGroup = { id: string, title: string }
 
-export type TGroup = (typeof GROUPS)[keyof typeof GROUPS]
 
-export const GROUP_IDS: Record<TGroup, string> = {
-    [GROUPS.TOP_MANAGERS]: config.group_ids.top_managers,
-    [GROUPS.TECH_MANAGERS]: config.group_ids.tech_managers,
-}
+const group = z.object({
+    group_id: z.string().openapi({ description: 'ID группы' }),
+    title: z.string().min(1).openapi({ description: 'Название группы' }),
+})
+
+
+export const groups = z.array(group).openapi({
+    description: 'Список всех групп',
+    example: [
+        { group_id: '12345', title: 'Top Managers' },
+        { group_id: '67890', title: 'Tech Managers' },
+    ],
+})
+

@@ -12,7 +12,7 @@ COPY . .
 
 RUN pnpm run build
 
-COPY ./src/swagger/description.md ./dist/description.md
+COPY ./src/swagger/descriptions/ ./dist/descriptions/
 
 
 # ---------- STAGE 2: production ----------

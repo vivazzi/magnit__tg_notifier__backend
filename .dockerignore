@@ -1,9 +1,9 @@
 .idea
 .git
 
-/dist/
+dist
 node_modules
-/local/
+local
 
 .gitignore
 .dockerignore

@@ -1,11 +1,14 @@
 {
-  "name": "telegram-notifier",
+  "name": "tg_notifier__backend",
   "version": "1.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
     "start:dev": "tsx watch src/server.ts",
     "build": "tsup src/server.ts --format esm --out-dir dist",
     "start": "node dist/server.js",
+    "bot_polling": "tsx watch src/modules/notifier/scripts/bot_polling.ts",
+
     "lint": "eslint",
     "lint:fix": "eslint --fix"
   },
