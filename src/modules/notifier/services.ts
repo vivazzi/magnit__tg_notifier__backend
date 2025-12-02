@@ -3,7 +3,7 @@ import path from 'node:path'
 import fetch from 'node-fetch'
 
 import { config } from '#src/config.ts'
-import { API_PREFIX, ROUTES } from '#src/routes.const.ts'
+import { ROUTES } from '#src/routes.const.ts'
 
 import { get_bot_id, get_bot_status, get_chat, has_groups_changed, is_bot_admin } from './utils.ts'
 import { type TGroup, webhook_groups_updated_event } from './models'
@@ -166,7 +166,7 @@ export const set_telegram_webhook = async () => {
     const response = await fetch(`https://api.telegram.org/bot${config.tokens.tg_bot}/setWebhook`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: `${config.public_url}${API_PREFIX}${ROUTES.telegram_webhook}` }),
+        body: JSON.stringify({ url: `${config.public_url}${ROUTES.telegram_webhook}` }),
     })
     const data = await response.json()
 

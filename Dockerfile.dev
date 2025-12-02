@@ -1,6 +1,19 @@
-FROM node:23-alpine
+ARG REGISTRY_HOST
+FROM ${REGISTRY_HOST}node:24-alpine
 
 WORKDIR /app
+
+ARG HTTP_PROXY
+
+ENV HTTPS_PROXY=$HTTP_PROXY
+ENV HTTP_PROXY=$HTTP_PROXY
+
+RUN if [ -n "$HTTP_PROXY" ]; then \
+        apk add --no-cache ca-certificates && \
+        update-ca-certificates; \
+    else \
+        echo "Proxy not set — skipping"; \
+    fi
 
 RUN npm install -g pnpm@10.4.1
 

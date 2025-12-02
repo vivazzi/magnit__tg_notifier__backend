@@ -14,7 +14,7 @@ The **backend** service of [tg_notifier](https://coderepo.corp.tander.ru/it_khd/
 - [Running](#running)
   - [Development](#development)
   - [Production](#production)
-- [Updating](#updating)
+- [Advanced](#advanced)
 - [Git Workflow](#git-workflow)
 - [Project concept and code style](#project-concept-and-code-style)
   - [Markdown TOC](#markdown-toc)
@@ -72,12 +72,6 @@ The **backend** service of [tg_notifier](https://coderepo.corp.tander.ru/it_khd/
    ```shell
    git clone git@coderepo.corp.tander.ru:it_khd/dev_khd/tg_notifier_backend.git backend
    ```
-   
-4. (development only) Install git hooks:
-
-    ```shell
-    ../../scripts/install_git_hooks.sh
-    ```
 
 
 ## Running
@@ -106,25 +100,13 @@ The **backend** service of [tg_notifier](https://coderepo.corp.tander.ru/it_khd/
 2. Run service:
 
    ```shell
-   cd ../../ && make up_backend
-   ```
-
-   Or directly with Docker:
-
-   ```shell
    docker compose -f ../../devops/docker/prod/docker-compose.yml up backend --build -d
    ```
 
 
-## Updating
+## Advanced
 
-Use the [Makefile](../../Makefile) to quickly update the service:
-
-```shell
-cd ../../ && make pull_backend     # pull only
-cd ../../ && make up_backend       # build and update
-cd ../../ && make pull_up_backend  # full update: pull, build, and update
-```
+Use the [Makefile](../../Makefile) to quickly run service management commands.
 
 
 ## Git Workflow

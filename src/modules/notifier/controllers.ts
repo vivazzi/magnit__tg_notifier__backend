@@ -71,7 +71,7 @@ export const webhook_groups_updated_controller = (req: Request, res: Response) =
 
         try {
             set_webhook_groups_updated(webhook_url, webhook_token)
-            return res.end()
+            return res.json({ status: 'ok' })
         } catch (error: unknown) {
             const message = error instanceof Error ? error.message : String(error)
             return res.status(500).json({ error: 'Failed to save webhook', details: message })
@@ -89,7 +89,7 @@ export const webhook_groups_updated_controller = (req: Request, res: Response) =
 
         try {
             remove_webhook_groups_updated()
-            return res.end()
+            return res.json({ status: 'ok' })
         } catch (error: unknown) {
             const message = error instanceof Error ? error.message : String(error)
             return res.status(500).json({ error: 'Failed to remove webhook', details: message })
@@ -103,7 +103,7 @@ export const webhook_groups_updated_controller = (req: Request, res: Response) =
 export const telegram_webhook_controller = async (req: Request, res: Response) => {
     try {
         await handle_telegram_update(req.body)
-        return res.end()
+        return res.json({ status: 'ok' })
     } catch (error) {
         console.error(error)
         return res.sendStatus(500)

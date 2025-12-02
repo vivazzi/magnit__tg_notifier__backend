@@ -1,5 +1,3 @@
-export const API_PREFIX = '/api'
-
 export const ROUTES = {
     notify: '/notify',
     telegram_webhook: '/webhook/tg',

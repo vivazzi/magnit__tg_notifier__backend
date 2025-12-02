@@ -1,4 +1,4 @@
-[JSON спецификация](/api/docs/json)
+[JSON спецификация](<APP_PUBLIC_PATH>/docs/json)
 
 **Telegram Notifier** — это сервис для отправки сообщений в Telegram-группы.
 

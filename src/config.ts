@@ -1,7 +1,7 @@
 const require_env = (name: string): string => {
     const value = process.env[name]
 
-    if (!value) throw new Error(`Missing required env var: ${name}`)
+    if (value === undefined) throw new Error(`Missing required env var: ${name}`)
 
     return value
 }
@@ -22,5 +22,6 @@ export const config = {
     },
 
     data_dir: './data',
-    public_url: require_env('APP_PUBLIC_URL'),
+    public_path: require_env('APP_PUBLIC_PATH'),
+    public_url: `https://${require_env('APP_HOST')}${require_env('APP_PUBLIC_PATH')}`,
 }

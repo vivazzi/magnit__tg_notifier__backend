@@ -9,4 +9,5 @@ local
 .dockerignore
 
 Dockerfile.dev
+Dockerfile.prod
 README.md

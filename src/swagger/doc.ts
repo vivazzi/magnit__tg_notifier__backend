@@ -1,16 +1,23 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 import { OpenAPIRegistry, OpenApiGeneratorV3 } from '@asteasolutions/zod-to-openapi'
 import type { OpenAPIObject } from 'openapi3-ts/oas30'
 
 import { auth_token, notification, groups, webhook_groups_updated, webhook_groups_updated_event } from '../modules'
 import { error_response } from './models.ts'
-import { API_PREFIX, ROUTES } from '#src/routes.const.ts'
+import { ROUTES } from '#src/routes.const.ts'
+import { config } from '#src/config.ts'
 
 
-const doc_description = fs.readFileSync(path.resolve(import.meta.dirname, 'descriptions/doc.md'), 'utf8')
-const test_webhook_description = fs.readFileSync(path.resolve(import.meta.dirname, 'descriptions/test_webhook.md'), 'utf8')
+let doc_description = fs.readFileSync(path.resolve(import.meta.dirname, 'descriptions/doc.md'), 'utf8')
+doc_description = doc_description.replaceAll('<APP_PUBLIC_PATH>', String(config.public_path))
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+let test_webhook_description = fs.readFileSync(path.resolve(__dirname, 'descriptions/test_webhook.md'), 'utf8')
+test_webhook_description = test_webhook_description.replaceAll('<APP_BACKEND_APP_PORT>', String(config.port))
 
 const registry = new OpenAPIRegistry()
 
@@ -33,7 +40,7 @@ export const TAGS = {
 // --- TELEGRAM_MESSAGES ---
 registry.registerPath({
     method: 'post',
-    path: `${API_PREFIX}${ROUTES.notify}`,
+    path: ROUTES.notify,
     tags: [TAGS.TELEGRAM_MESSAGES],
     description: 'Отправляет сообщение в указанную телеграм группу',
     request: {
@@ -49,7 +56,7 @@ registry.registerPath({
 // --- GROUPS ---
 registry.registerPath({
     method: 'post',
-    path: `${API_PREFIX}${ROUTES.groups}`,
+    path: ROUTES.groups,
     tags: [TAGS.GROUPS],
     description: 'Возвращает список групп',
     request: {
@@ -63,7 +70,7 @@ registry.registerPath({
 
 registry.registerPath({
     method: 'post',
-    path: `${API_PREFIX}${ROUTES.refresh_groups}`,
+    path: ROUTES.refresh_groups,
     tags: [TAGS.GROUPS],
     description: '' +
         'Проверяет все группы и удаляет те, где бот больше не состоит. ' +
@@ -84,7 +91,7 @@ registry.registerPath({
 // --- WEBHOOKS ---
 registry.registerPath({
     method: 'post',
-    path: `${API_PREFIX}${ROUTES.webhook_groups_updated}`,
+    path: ROUTES.webhook_groups_updated,
     tags: [TAGS.WEBHOOKS],
     description: 'Устанавливает вебхук, который будет выполняться при изменении списка групп',
     request: {
@@ -98,7 +105,7 @@ registry.registerPath({
 
 registry.registerPath({
     method: 'delete',
-    path: `${API_PREFIX}${ROUTES.webhook_groups_updated}`,
+    path: ROUTES.webhook_groups_updated,
     tags: [TAGS.WEBHOOKS],
     description: 'Удаляет текущий вебхук, который выполняется при изменении списка групп',
     request: {
@@ -114,7 +121,7 @@ registry.registerPath({
 // --- TELEGRAM_SETTINGS ---
 registry.registerPath({
     method: 'post',
-    path: `${API_PREFIX}${ROUTES.telegram_webhook_set}`,
+    path: ROUTES.telegram_webhook_set,
     tags: [TAGS.TELEGRAM_SETTINGS],
     description: 'Устанавливает вебхук у Telegram для приёма апдейтов вместо polling. Для продакшена.',
     request: {
@@ -131,7 +138,7 @@ registry.registerPath({
 // --- TESTS ---
 registry.registerPath({
     method: 'post',
-    path: `${API_PREFIX}${ROUTES.test_webhook}`,
+    path: ROUTES.test_webhook,
     tags: [TAGS.TESTS],
     description: test_webhook_description,
     request: {
@@ -167,4 +174,9 @@ export const openapi_doc: OpenAPIObject = generator.generateDocument({
         version: '1.0.0',
         description: doc_description,
     },
+    servers: [
+        {
+            url: config.public_url,
+        },
+    ],
 })

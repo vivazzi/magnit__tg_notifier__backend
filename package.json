@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "start:dev": "tsx watch src/server.ts",
-    "build": "tsup src/server.ts --format esm --out-dir dist",
-    "start": "node dist/server.js",
+    "start": "tsx src/server.js",
     "bot_polling": "tsx watch src/modules/notifier/scripts/bot_polling.ts",
 
     "lint": "eslint",
@@ -29,15 +28,8 @@
     "@types/swagger-ui-express": "^4.1.8",
     "eslint": "^9.23.0",
     "eslint-plugin-unicorn": "^57.0.0",
-    "tsup": "^8.5.0",
     "tsx": "^4.20.5",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.29.0"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@scarf/scarf",
-      "esbuild"
-    ]
   }
 }

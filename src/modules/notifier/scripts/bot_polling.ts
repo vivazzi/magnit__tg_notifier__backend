@@ -7,10 +7,20 @@ const POLLING_INTERVAL = 2000
 let offset: number | undefined = undefined
 
 
+type TTelegramUpdate = {
+    update_id: number
+}
+
+type TTelegramGetUpdatesResponse = {
+    ok: boolean
+    result: TTelegramUpdate[]
+}
+
+
 const start_polling = async () => {
     const url = `https://api.telegram.org/bot${config.tokens.tg_bot}/getUpdates?timeout=30${offset ? '&offset=' + offset : ''}`
     const res = await fetch(url)
-    const data = await res.json()
+    const data = await res.json() as TTelegramGetUpdatesResponse
 
     if (data.ok) {
         for (const update of data.result) {
