@@ -23,5 +23,5 @@ export const config = {
 
     data_dir: './data',
     public_path: require_env('APP_PUBLIC_PATH'),
-    public_url: `https://${require_env('APP_HOST')}${require_env('APP_PUBLIC_PATH')}`,
+    public_url: `https://${require_env('APP_PUBLIC_HOST')}${require_env('APP_PUBLIC_PATH')}`,
 }
