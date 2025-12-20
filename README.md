@@ -63,7 +63,7 @@ The **backend** service of [tg_notifier](https://coderepo.corp.tander.ru/it_khd/
 
 ## Installing
 
-1. Install `tg_notifier` project. For details, refer to the [tg_notifier README.md](../../README.md#installing)
+1. Install the main project repository. For details, refer to the [main project README.md](../../README.md#installing)
 
 2. Make sure you are in the [services](../../services) folder.
 
@@ -80,7 +80,7 @@ The **backend** service of [tg_notifier](https://coderepo.corp.tander.ru/it_khd/
 
 1. Copy the required environment variable files for this service 
    (see `services:backend` in [docker-compose.yml](../../devops/docker/dev/docker-compose.yml)) 
-   from [../../devops/docker/_samples](../../devops/docker/_samples) 
+   from [../../devops/docker/_samples](../../devops/docker/dev/_samples) 
    to [../../devops/docker/dev](../../devops/docker/dev) and set the appropriate values.
 
 2. Run service:
@@ -94,7 +94,7 @@ The **backend** service of [tg_notifier](https://coderepo.corp.tander.ru/it_khd/
 
 1. Copy the required environment variable files for this service 
    (see `services:backend` in [docker-compose.yml](../../devops/docker/prod/docker-compose.yml)) 
-   from [../../devops/docker/_samples](../../devops/docker/_samples) 
+   from [../../devops/docker/_samples](../../devops/docker/prod/_samples) 
    to [../../devops/docker/prod](../../devops/docker/prod) and set the appropriate values.
 
 2. Run service:
@@ -111,14 +111,14 @@ Use the [Makefile](../../Makefile) to quickly run service management commands.
 
 ## Git Workflow
 
-The Git workflow is the same as in the main `tg_notifier` repository.  
-See the [tg_notifier README.md](../../README.md#git-workflow) for details.
+The Git workflow is the same as in the main `main project` repository.  
+See the [main project README.md](../../README.md#git-workflow) for details.
 
 
 ## Project concept and code style
 
-Project concept and code style is the same as in the main `tg_notifier` repository.  
-See the [tg_notifier README.md](../../README.md#project-concept-and-code-style) for details.
+Project concept and code style is the same as in the main project repository.  
+See the [main project README.md](../../README.md#project-concept-and-code-style) for details.
 
 
 ### Markdown TOC
